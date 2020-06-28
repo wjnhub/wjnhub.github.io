@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="字符串字面量1234567let someString &#x3D; &quot;hello playground&quot;let mutilineString &#x3D; &quot;&quot;&quot;hello playground,These are the same. \continueend&quot;&quot;&quot;  初始化空字符串12345var emptyString &#x3D; &quot;&quot;var anotherEmptyString &#x3D; String()if emptyS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift学习之字符串和字符">
+<meta property="og:url" content="http://yoursite.com/2019/01/27/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%AD%97%E7%AC%A6/index.html">
+<meta property="og:site_name" content="小熊之家">
+<meta property="og:description" content="字符串字面量1234567let someString &#x3D; &quot;hello playground&quot;let mutilineString &#x3D; &quot;&quot;&quot;hello playground,These are the same. \continueend&quot;&quot;&quot;  初始化空字符串12345var emptyString &#x3D; &quot;&quot;var anotherEmptyString &#x3D; String()if emptyS">
+<meta property="article:published_time" content="2019-01-27T13:00:28.000Z">
+<meta property="article:modified_time" content="2020-06-28T13:03:31.577Z">
+<meta property="article:author" content="wjn">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/27/Swift学习之字符串和字符/"/>
+
+
+
+
+
+  <title>Swift学习之字符串和字符 | 小熊之家</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小熊之家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/27/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%AD%97%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小熊之家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift学习之字符串和字符</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-27T21:00:28+08:00">
+                2019-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="字符串字面量"><a href="#字符串字面量" class="headerlink" title="字符串字面量"></a>字符串字面量</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> someString = <span class="string">"hello playground"</span></span><br><span class="line"><span class="keyword">let</span> mutilineString = <span class="string">"""</span></span><br><span class="line"><span class="string">hello playground,</span></span><br><span class="line"><span class="string">These are the same. \</span></span><br><span class="line"><span class="string">continue</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="初始化空字符串"><a href="#初始化空字符串" class="headerlink" title="初始化空字符串"></a>初始化空字符串</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyString = <span class="string">""</span></span><br><span class="line"><span class="keyword">var</span> anotherEmptyString = <span class="type">String</span>()</span><br><span class="line"><span class="keyword">if</span> emptyString.isEmpty &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"nothing to see here"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="字符串可变性"><a href="#字符串可变性" class="headerlink" title="字符串可变性"></a>字符串可变性</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> variableString = <span class="string">"Horse"</span></span><br><span class="line">variableString += <span class="string">" and varriage"</span></span><br><span class="line"><span class="built_in">print</span>(variableString)</span><br></pre></td></tr></table></figure>
+<h1 id="字符串的值类型"><a href="#字符串的值类型" class="headerlink" title="字符串的值类型"></a>字符串的值类型</h1><blockquote>
+<p>String类型是值类型,进行赋值或者函数方法传递时,会进行值拷贝  </p>
+</blockquote>
+<p>#字符与字符串转换</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符转字符串</span></span><br><span class="line"><span class="keyword">let</span> catString = <span class="type">String</span>(catCharacters)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 连接字符串和字符</span></span><br><span class="line"><span class="keyword">let</span> string1 = <span class="string">"hello"</span></span><br><span class="line"><span class="keyword">let</span> string2 = <span class="string">" world"</span></span><br><span class="line"><span class="keyword">var</span> welcome = string1 + string2</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> charecter1: <span class="type">Character</span> = <span class="string">"!"</span></span><br><span class="line">welcome.append(charecter1)</span><br></pre></td></tr></table></figure>
+<h1 id="多行字符串拼接"><a href="#多行字符串拼接" class="headerlink" title="多行字符串拼接"></a>多行字符串拼接</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> badStart = <span class="string">"""</span></span><br><span class="line"><span class="string">one</span></span><br><span class="line"><span class="string">two</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">let</span> end = <span class="string">"""</span></span><br><span class="line"><span class="string">three</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="built_in">print</span>(badStart + end)</span><br></pre></td></tr></table></figure>
+<h1 id="字符串插值"><a href="#字符串插值" class="headerlink" title="字符串插值"></a>字符串插值</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> multiplier = <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> message = <span class="string">"\(multiplier) time 2.5 is \(Double(multiplier) * 2.5)"</span></span><br></pre></td></tr></table></figure>
+<h1 id="计算字符数量"><a href="#计算字符数量" class="headerlink" title="计算字符数量"></a>计算字符数量</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> unusualMenagerie = <span class="string">"Koala, Snail, Penguin, Dromedary"</span></span><br><span class="line"><span class="built_in">print</span>(unusualMenagerie.<span class="built_in">count</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="字符串索引"><a href="#字符串索引" class="headerlink" title="字符串索引"></a>字符串索引</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果 String 是空串，startIndex 和 endIndex 是相等的</span></span><br><span class="line"><span class="keyword">let</span> greeting = <span class="string">"Guten Tag!"</span></span><br><span class="line">greeting[greeting.startIndex]</span><br><span class="line">greeting[greeting.index(before: greeting.endIndex)]</span><br><span class="line">greeting[greeting.index(after: greeting.startIndex)]</span><br><span class="line">greeting[greeting.index(greeting.startIndex, offsetBy: <span class="number">7</span>)]</span><br><span class="line"><span class="comment">// greeting[greeting.endIndex] // Fatal error: String index is out of bounds</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 访问单个字符</span></span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> greeting.<span class="built_in">indices</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\(greeting[index])"</span>, terminator: <span class="string">" "</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="插入和删除"><a href="#插入和删除" class="headerlink" title="插入和删除"></a>插入和删除</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hello  = <span class="string">"hello"</span></span><br><span class="line">hello.insert(<span class="string">"!"</span>, at: hello.endIndex)</span><br><span class="line"></span><br><span class="line">hello.remove(at: hello.index(hello.endIndex, offsetBy: -<span class="number">1</span>))</span><br><span class="line"><span class="keyword">let</span> range = hello.index(hello.endIndex, offsetBy: -<span class="number">3</span>)..&lt;hello.endIndex</span><br><span class="line">hello.removeSubrange(range)</span><br></pre></td></tr></table></figure>
+<h1 id="子字符串"><a href="#子字符串" class="headerlink" title="子字符串"></a>子字符串</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> string = <span class="string">"hello, world!"</span></span><br><span class="line"><span class="keyword">let</span> idx = string.firstIndex(of: <span class="string">","</span>) ?? string.endIndex</span><br><span class="line"><span class="keyword">let</span> benginning = string[..&lt;idx] <span class="comment">// substring共用string内存</span></span><br><span class="line"><span class="keyword">let</span> newString = <span class="type">String</span>(benginning) <span class="comment">// 生成新的string内存空间</span></span><br></pre></td></tr></table></figure>
+<h1 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> quotation = <span class="string">"hello world"</span></span><br><span class="line"><span class="keyword">let</span> sameQuotation = <span class="string">"hello world"</span></span><br><span class="line"><span class="keyword">if</span> quotation == sameQuotation &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"same string"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 前缀/后缀相等</span></span><br><span class="line"><span class="keyword">let</span> a1 = <span class="string">"hello world"</span></span><br><span class="line"><span class="keyword">let</span> a2 = <span class="string">"he"</span></span><br><span class="line"><span class="keyword">let</span> a3 = <span class="string">"ld"</span></span><br><span class="line"><span class="keyword">if</span> a1.hasPrefix(a2) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"'\(a2)'是'\(a1)'的前缀"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> a1.hasSuffix(a3) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"'\(a3)'是'\(a1)'的后缀"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Unicode形式"><a href="#Unicode形式" class="headerlink" title="Unicode形式"></a>Unicode形式</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串的Unicode表示形式</span></span><br><span class="line"><span class="keyword">let</span> dogString = <span class="string">"Dog‼🐶"</span></span><br><span class="line"><span class="keyword">for</span> codeUnit <span class="keyword">in</span> dogString.utf8 &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\(codeUnit)"</span>, terminator: <span class="string">" "</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">""</span>)</span><br><span class="line"><span class="comment">// Unicode 标量表示</span></span><br><span class="line"><span class="keyword">for</span> scalar <span class="keyword">in</span> dogString.unicodeScalars &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\(scalar.value) "</span>, terminator: <span class="string">" "</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">""</span>)</span><br><span class="line"><span class="keyword">for</span> scalar <span class="keyword">in</span> dogString.unicodeScalars &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\(scalar) "</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="多线程">
+                <i class="fa fa-chevron-left"></i> 多线程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/28/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E7%BB%84%E3%80%81%E9%9B%86%E5%90%88%E5%92%8C%E5%AD%97%E5%85%B8/" rel="prev" title="Swift学习之数组、集合和字典">
+                Swift学习之数组、集合和字典 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="wjn" />
+            
+              <p class="site-author-name" itemprop="name">wjn</p>
+              <p class="site-description motion-element" itemprop="description">记录每一瞬间</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wjnhub" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wjnhub@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串字面量"><span class="nav-number">1.</span> <span class="nav-text">字符串字面量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化空字符串"><span class="nav-number">2.</span> <span class="nav-text">初始化空字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串可变性"><span class="nav-number">3.</span> <span class="nav-text">字符串可变性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串的值类型"><span class="nav-number">4.</span> <span class="nav-text">字符串的值类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多行字符串拼接"><span class="nav-number">5.</span> <span class="nav-text">多行字符串拼接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串插值"><span class="nav-number">6.</span> <span class="nav-text">字符串插值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算字符数量"><span class="nav-number">7.</span> <span class="nav-text">计算字符数量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串索引"><span class="nav-number">8.</span> <span class="nav-text">字符串索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插入和删除"><span class="nav-number">9.</span> <span class="nav-text">插入和删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#子字符串"><span class="nav-number">10.</span> <span class="nav-text">子字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串比较"><span class="nav-number">11.</span> <span class="nav-text">字符串比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unicode形式"><span class="nav-number">12.</span> <span class="nav-text">Unicode形式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjn</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

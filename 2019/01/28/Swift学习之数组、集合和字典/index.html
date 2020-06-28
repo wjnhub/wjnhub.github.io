@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数组初始化一个数组12345678910111213var someInts &#x3D; [Int]()someInts.append(2)someInts &#x3D; []&#x2F;&#x2F; 创建带有默认值的数组var threeDoubles &#x3D; Array(repeating: 0.0, count: 3)&#x2F;&#x2F; 两个数组相加创建新数组var anotherThreeDoubles &#x3D; Array(repeating: 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift学习之数组、集合和字典">
+<meta property="og:url" content="http://yoursite.com/2019/01/28/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E7%BB%84%E3%80%81%E9%9B%86%E5%90%88%E5%92%8C%E5%AD%97%E5%85%B8/index.html">
+<meta property="og:site_name" content="小熊之家">
+<meta property="og:description" content="数组初始化一个数组12345678910111213var someInts &#x3D; [Int]()someInts.append(2)someInts &#x3D; []&#x2F;&#x2F; 创建带有默认值的数组var threeDoubles &#x3D; Array(repeating: 0.0, count: 3)&#x2F;&#x2F; 两个数组相加创建新数组var anotherThreeDoubles &#x3D; Array(repeating: 2">
+<meta property="article:published_time" content="2019-01-28T13:00:28.000Z">
+<meta property="article:modified_time" content="2020-06-28T13:02:39.634Z">
+<meta property="article:author" content="wjn">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/28/Swift学习之数组、集合和字典/"/>
+
+
+
+
+
+  <title>Swift学习之数组、集合和字典 | 小熊之家</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小熊之家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E7%BB%84%E3%80%81%E9%9B%86%E5%90%88%E5%92%8C%E5%AD%97%E5%85%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小熊之家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift学习之数组、集合和字典</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T21:00:28+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="初始化一个数组"><a href="#初始化一个数组" class="headerlink" title="初始化一个数组"></a>初始化一个数组</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> someInts = [<span class="type">Int</span>]()</span><br><span class="line">someInts.append(<span class="number">2</span>)</span><br><span class="line">someInts = []</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建带有默认值的数组</span></span><br><span class="line"><span class="keyword">var</span> threeDoubles = <span class="type">Array</span>(repeating: <span class="number">0.0</span>, <span class="built_in">count</span>: <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 两个数组相加创建新数组</span></span><br><span class="line"><span class="keyword">var</span> anotherThreeDoubles = <span class="type">Array</span>(repeating: <span class="number">2.5</span>, <span class="built_in">count</span>: <span class="number">3</span>)</span><br><span class="line"><span class="keyword">var</span> sixDoubles = threeDoubles + anotherThreeDoubles</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组字面量创建数组</span></span><br><span class="line"><span class="keyword">var</span> shoppingList: [<span class="type">String</span>] = [<span class="string">"Eggs"</span>, <span class="string">"Milk"</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="增加数组元素"><a href="#增加数组元素" class="headerlink" title="增加数组元素"></a>增加数组元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shoppingList.append(<span class="string">"Flour"</span>)</span><br><span class="line">shoppingList += [<span class="string">"Baking Powder"</span>]</span><br><span class="line">shoppingList.insert(<span class="string">"Maple Syrup"</span>, at: <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="读取数组元素"><a href="#读取数组元素" class="headerlink" title="读取数组元素"></a>读取数组元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> firstItem = shoppingList[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改数组元素"><a href="#修改数组元素" class="headerlink" title="修改数组元素"></a>修改数组元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shoppingList[<span class="number">0</span>] = <span class="string">"Six eggs"</span></span><br><span class="line">shoppingList[<span class="number">1</span>...<span class="number">3</span>] = [<span class="string">"Bananas"</span>, <span class="string">"Apple"</span>, <span class="string">"orange"</span>]</span><br><span class="line"><span class="built_in">print</span>(shoppingList)</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除数组元素"><a href="#删除数组元素" class="headerlink" title="删除数组元素"></a>删除数组元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shoppingList.remove(at: <span class="number">0</span>)</span><br><span class="line">shoppingList.removeFirst()</span><br><span class="line">shoppingList.removeLast()</span><br></pre></td></tr></table></figure>
+<h2 id="数组遍历"><a href="#数组遍历" class="headerlink" title="数组遍历"></a>数组遍历</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> shoppingList &#123;</span><br><span class="line">    <span class="built_in">print</span>(item)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (index, value) <span class="keyword">in</span> shoppingList.enumerated() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"index: \(index), value: \(value)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">相等的对象哈希值必须相同 比如 a&#x3D;&#x3D;b 必须a.hasValue &#x3D;&#x3D; b.hasValue</span><br><span class="line">Swift 的所有基本类型（比如 String,Int,Double 和 Bool）默认都是可哈希化的</span><br><span class="line">可以作为集合的值的类型或者字典的键的类型。没有关联值的枚举成员值默认也是可哈希化的</span><br><span class="line">因为 Hashable 协议符合 Equatable协议，所以遵循该协议的类型也必须提供一个“是否相等”运算符（&#x3D;&#x3D;）的实现。</span><br><span class="line">这个 Equatable 协议要求任何符合 &#x3D;&#x3D; 实现的实例间都是一种相等的关系。</span><br><span class="line">也就是说，对于 a,b,c 三个值来说，&#x3D;&#x3D; 的实现必须满足下面三种情况：</span><br><span class="line"> a &#x3D;&#x3D; a(自反性)</span><br><span class="line"> a &#x3D;&#x3D; b 意味着 b &#x3D;&#x3D; a(对称性)</span><br><span class="line"> a &#x3D;&#x3D; b &amp;&amp; b &#x3D;&#x3D; c 意味着 a &#x3D;&#x3D; c(传递性)</span><br></pre></td></tr></table></figure>
+<h2 id="创建和构造一个空集合"><a href="#创建和构造一个空集合" class="headerlink" title="创建和构造一个空集合"></a>创建和构造一个空集合</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> letters = <span class="type">Set</span>&lt;<span class="type">Character</span>&gt;()</span><br><span class="line">letters.insert(<span class="string">"a"</span>)</span><br><span class="line">letters = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> favoriteGenres: <span class="type">Set</span>&lt;<span class="type">String</span>&gt; = [<span class="string">"Rock"</span>, <span class="string">"Classical"</span>, <span class="string">"Hip hop"</span>]</span><br><span class="line"><span class="keyword">var</span> favoriteGenres1: <span class="type">Set</span> = [<span class="string">"Rock"</span>, <span class="string">"Classical"</span>, <span class="string">"Hip hop"</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="访问集合"><a href="#访问集合" class="headerlink" title="访问集合"></a>访问集合</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">"I have \(favoriteGenres.count) favorite music genres"</span>)</span><br><span class="line"><span class="keyword">if</span> favoriteGenres.isEmpty &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"As far as music goes, I am not picky"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"I have particular music perferences"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改集合"><a href="#修改集合" class="headerlink" title="修改集合"></a>修改集合</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">favoriteGenres.insert(<span class="string">"Jazz"</span>)</span><br><span class="line">favoriteGenres.remove(<span class="string">"Rock"</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询集合中n某个特定值"><a href="#查询集合中n某个特定值" class="headerlink" title="查询集合中n某个特定值"></a>查询集合中n某个特定值</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> favoriteGenres.<span class="built_in">contains</span>(<span class="string">"Funk"</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"I get up on the good foot."</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"It is too funky in here"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> genre <span class="keyword">in</span> favoriteGenres &#123;</span><br><span class="line">    <span class="built_in">print</span>(genre)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> genre <span class="keyword">in</span> favoriteGenres.sorted() &#123;</span><br><span class="line">    <span class="built_in">print</span>(genre)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="基本集合操作"><a href="#基本集合操作" class="headerlink" title="基本集合操作"></a>基本集合操作</h1><blockquote>
+<p>使用 intersection(<em>:) 方法根据两个集合中都包含的值创建的一个新的集合。<br> 使用 symmetricDifference(</em>:) 方法根据在一个集合中但不在两个集合中的值创建一个新的集合。<br> 使用 union(<em>:) 方法根据两个集合的值创建一个新的集合。<br> 使用 subtracting(</em>:) 方法根据不在该集合中的值创建一个新的集合。</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> oddDigits: <span class="type">Set</span> = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]</span><br><span class="line"><span class="keyword">let</span> evenDigits: <span class="type">Set</span> = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br><span class="line"><span class="keyword">let</span> singleDigitPrimeNumbers: <span class="type">Set</span> = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]</span><br><span class="line"></span><br><span class="line">oddDigits.union(evenDigits).sorted()</span><br><span class="line"><span class="comment">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span></span><br><span class="line">oddDigits.intersection(evenDigits).sorted()</span><br><span class="line"><span class="comment">// []</span></span><br><span class="line">oddDigits.subtracting(singleDigitPrimeNumbers).sorted()</span><br><span class="line"><span class="comment">// [1, 9]</span></span><br><span class="line">oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()</span><br><span class="line"><span class="comment">// [1, 2, 9]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="集合成员关系和相等"><a href="#集合成员关系和相等" class="headerlink" title="集合成员关系和相等"></a>集合成员关系和相等</h1><blockquote>
+<p>使用“是否相等”运算符（==）来判断两个集合是否包含全部相同的值。<br> 使用 isSubset(of:) 方法来判断一个集合中的值是否也被包含在另外一个集合中。<br> 使用 isSuperset(of:) 方法来判断一个集合中包含另一个集合中所有的值。<br> 使用 isStrictSubset(of:) 或者 isStrictSuperset(of:) 方法来判断一个集合是否是另外一个集合的子集合或者父集合并且两个集合并不相等。<br> 使用 isDisjoint(with:) 方法来判断两个集合是否不含有相同的值（是否没有交集）。</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> houseAnimals: <span class="type">Set</span> = [<span class="string">"🐶"</span>, <span class="string">"🐱"</span>]</span><br><span class="line"><span class="keyword">let</span> farmAnimals: <span class="type">Set</span> = [<span class="string">"🐮"</span>, <span class="string">"🐔"</span>, <span class="string">"🐑"</span>, <span class="string">"🐶"</span>, <span class="string">"🐱"</span>]</span><br><span class="line"><span class="keyword">let</span> cityAnimals: <span class="type">Set</span> = [<span class="string">"🐦"</span>, <span class="string">"🐭"</span>]</span><br><span class="line"></span><br><span class="line">houseAnimals.isSubset(of: farmAnimals)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">farmAnimals.isSuperset(of: houseAnimals)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">farmAnimals.isStrictSuperset(of: houseAnimals)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">farmAnimals.isDisjoint(with: cityAnimals)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h1><h2 id="创建字典"><a href="#创建字典" class="headerlink" title="创建字典"></a>创建字典</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建空字典</span></span><br><span class="line"><span class="keyword">var</span> namesOfIntegers = [<span class="type">Int</span>: <span class="type">String</span>]()</span><br><span class="line">namesOfIntegers[<span class="number">16</span>] = <span class="string">"sixteen"</span></span><br><span class="line">namesOfIntegers = [:]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字面量创建字典</span></span><br><span class="line"><span class="keyword">var</span> airports: [<span class="type">String</span>: <span class="type">String</span>] = [<span class="string">"YYZ"</span>: <span class="string">"Toronto Pearson"</span>, <span class="string">"DUB"</span>: <span class="string">"Dublin"</span>]</span><br><span class="line"><span class="keyword">var</span> airports1 = [<span class="string">"YYZ"</span>: <span class="string">"Toronto Pearson"</span>, <span class="string">"DUB"</span>: <span class="string">"Dublin"</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="访问字典"><a href="#访问字典" class="headerlink" title="访问字典"></a>访问字典</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">"The dictionary of airports contains \(airports.count) items."</span>)</span><br><span class="line"><span class="keyword">if</span> airports.isEmpty &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The airports dictionary is empty."</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The airports dictionary is not empty"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="增加字典元素"><a href="#增加字典元素" class="headerlink" title="增加字典元素"></a>增加字典元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airports[<span class="string">"LHR"</span>] = <span class="string">"London"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="修改字典元素"><a href="#修改字典元素" class="headerlink" title="修改字典元素"></a>修改字典元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">airports[<span class="string">"LHR"</span>] = <span class="string">"London Heathrow"</span></span><br><span class="line"><span class="comment">// updateValue(_:forKey:) 设置或者更新特定键对应的值 存在该键则更新并返回原值 不存在则添加</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> oldValue = airports.updateValue(<span class="string">"Dublin Airport"</span>, forKey: <span class="string">"DUB"</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The old value for DUB was \(oldValue)."</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> airportName = airports[<span class="string">"DUB"</span>] &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The name of the airport is \(airportName)"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"That airport is not in the airports dictionary"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除字典中某元素"><a href="#删除字典中某元素" class="headerlink" title="删除字典中某元素"></a>删除字典中某元素</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">airports[<span class="string">"APL"</span>] = <span class="string">"Apple Internation"</span></span><br><span class="line">airports[<span class="string">"APL"</span>] = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> removedValue = airports.removeValue(forKey: <span class="string">"DUB"</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The removed airport's name is \(removedValue)"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The airports dictionary does not contain a value for DUB"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字典遍历"><a href="#字典遍历" class="headerlink" title="字典遍历"></a>字典遍历</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (key, value) <span class="keyword">in</span> airports &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"key: \(key), value: \(value)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> airports.keys &#123;</span><br><span class="line">    <span class="built_in">print</span>(key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> airports.values &#123;</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="直接使用-keys-或者-values-属性构造一个新数组"><a href="#直接使用-keys-或者-values-属性构造一个新数组" class="headerlink" title="直接使用 keys 或者 values 属性构造一个新数组"></a>直接使用 keys 或者 values 属性构造一个新数组</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> airportKeys = [<span class="type">String</span>](airports.keys).sorted()</span><br><span class="line"><span class="keyword">let</span> airportValue = [<span class="type">String</span>](airports.values).sorted()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/27/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%AD%97%E7%AC%A6/" rel="next" title="Swift学习之字符串和字符">
+                <i class="fa fa-chevron-left"></i> Swift学习之字符串和字符
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/28/Homebrew%E6%97%B6%E6%8A%A5%E9%94%99/" rel="prev" title="Homebrew时报错">
+                Homebrew时报错 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="wjn" />
+            
+              <p class="site-author-name" itemprop="name">wjn</p>
+              <p class="site-description motion-element" itemprop="description">记录每一瞬间</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wjnhub" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wjnhub@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数组"><span class="nav-number">1.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化一个数组"><span class="nav-number">1.1.</span> <span class="nav-text">初始化一个数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加数组元素"><span class="nav-number">1.2.</span> <span class="nav-text">增加数组元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数组元素"><span class="nav-number">1.3.</span> <span class="nav-text">读取数组元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改数组元素"><span class="nav-number">1.4.</span> <span class="nav-text">修改数组元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除数组元素"><span class="nav-number">1.5.</span> <span class="nav-text">删除数组元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组遍历"><span class="nav-number">1.6.</span> <span class="nav-text">数组遍历</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集合"><span class="nav-number">2.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建和构造一个空集合"><span class="nav-number">2.1.</span> <span class="nav-text">创建和构造一个空集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问集合"><span class="nav-number">2.2.</span> <span class="nav-text">访问集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改集合"><span class="nav-number">2.3.</span> <span class="nav-text">修改集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询集合中n某个特定值"><span class="nav-number">2.4.</span> <span class="nav-text">查询集合中n某个特定值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本集合操作"><span class="nav-number">3.</span> <span class="nav-text">基本集合操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集合成员关系和相等"><span class="nav-number">4.</span> <span class="nav-text">集合成员关系和相等</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字典"><span class="nav-number">5.</span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建字典"><span class="nav-number">5.1.</span> <span class="nav-text">创建字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问字典"><span class="nav-number">5.2.</span> <span class="nav-text">访问字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加字典元素"><span class="nav-number">5.3.</span> <span class="nav-text">增加字典元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改字典元素"><span class="nav-number">5.4.</span> <span class="nav-text">修改字典元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除字典中某元素"><span class="nav-number">5.5.</span> <span class="nav-text">删除字典中某元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典遍历"><span class="nav-number">5.6.</span> <span class="nav-text">字典遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接使用-keys-或者-values-属性构造一个新数组"><span class="nav-number">5.7.</span> <span class="nav-text">直接使用 keys 或者 values 属性构造一个新数组</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjn</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

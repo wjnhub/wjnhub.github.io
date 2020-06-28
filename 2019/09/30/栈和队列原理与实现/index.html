@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="@[toc] 栈 后进先出，栈中弹出的元素总是你最后放进去的那个 类似于数组，只是限制了存取操作的灵活性。压栈是将元素压入数组尾部 在数组的头部插入元素是一个很耗时的操作，它的时间复杂度为 O(n)，因为需要将现有元素往后移位为新元素腾出空间。而在尾部插入元素的时间复杂度为 O(1) 栈只允许使用者从栈顶压入（push）元素，从栈顶弹出（pop）元素，取得（peek）栈顶元素但不弹出。  栈的几个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈和队列原理与实现">
+<meta property="og:url" content="http://yoursite.com/2019/09/30/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="小熊之家">
+<meta property="og:description" content="@[toc] 栈 后进先出，栈中弹出的元素总是你最后放进去的那个 类似于数组，只是限制了存取操作的灵活性。压栈是将元素压入数组尾部 在数组的头部插入元素是一个很耗时的操作，它的时间复杂度为 O(n)，因为需要将现有元素往后移位为新元素腾出空间。而在尾部插入元素的时间复杂度为 O(1) 栈只允许使用者从栈顶压入（push）元素，从栈顶弹出（pop）元素，取得（peek）栈顶元素但不弹出。  栈的几个">
+<meta property="article:published_time" content="2019-09-30T12:32:51.000Z">
+<meta property="article:modified_time" content="2020-06-28T12:34:15.476Z">
+<meta property="article:author" content="wjn">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/30/栈和队列原理与实现/"/>
+
+
+
+
+
+  <title>栈和队列原理与实现 | 小熊之家</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小熊之家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/30/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小熊之家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">栈和队列原理与实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-30T20:32:51+08:00">
+                2019-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>@[toc]</p>
+<h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><ul>
+<li><code>后进先出</code>，栈中弹出的元素总是你最后放进去的那个</li>
+<li>类似于数组，只是限制了存取操作的灵活性。压栈是将元素压入数组尾部</li>
+<li>在数组的头部插入元素是一个很耗时的操作，它的时间复杂度为 O(n)，因为需要将现有元素往后移位为新元素腾出空间。而在尾部插入元素的时间复杂度为 O(1)</li>
+<li>栈只允许使用者从栈顶压入（push）元素，从栈顶弹出（pop）元素，取得（peek）栈顶元素但不弹出。</li>
+</ul>
+<p><strong>栈的几个要素：</strong></p>
+<ol>
+<li>push 入栈</li>
+<li>pop 出栈</li>
+<li>peek 取得栈顶元素</li>
+<li>isEmpty 栈是否为空</li>
+<li>size 栈的大小</li>
+</ol>
+<p> <strong>Swift利用数组实现一个栈</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Stack</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 持有元素类型</span></span><br><span class="line">    <span class="keyword">associatedtype</span> <span class="type">Element</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 是否为空</span></span><br><span class="line">    <span class="keyword">var</span> isEmpty: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="comment">// 栈的大小</span></span><br><span class="line">    <span class="keyword">var</span> size: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="comment">// 栈顶元素</span></span><br><span class="line">    <span class="keyword">var</span> peek: <span class="type">Element?</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 入栈</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(<span class="number">_</span> newElement: Element)</span></span></span><br><span class="line">    <span class="comment">// 出栈</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">pop</span><span class="params">()</span></span> -&gt; <span class="type">Element?</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyStack</span>&lt;<span class="title">T</span>&gt;: <span class="title">Stack</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Element</span> = <span class="type">T</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> stack = [<span class="type">Element</span>]()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> isEmpty: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> stack.isEmpty</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> size: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> stack.<span class="built_in">count</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> peek: <span class="type">Element?</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> stack.last</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(<span class="number">_</span> newElement: Element)</span></span> &#123;</span><br><span class="line">        stack.append(newElement)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">pop</span><span class="params">()</span></span> -&gt; <span class="type">Element?</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> stack.popLast()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看一下栈的运行结果</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stack = <span class="type">MyStack</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line">stack.push(<span class="number">8</span>)</span><br><span class="line">stack.push(<span class="number">6</span>)</span><br><span class="line">stack.push(<span class="number">3</span>)</span><br><span class="line"><span class="comment">// [8, 6, 3]</span></span><br><span class="line"></span><br><span class="line">stack.peek <span class="comment">// 3</span></span><br><span class="line">stack.pop()</span><br><span class="line">stack.peek <span class="comment">// 6</span></span><br><span class="line">stack.pop()</span><br><span class="line">stack.peek <span class="comment">// 8</span></span><br><span class="line">stack.pop()</span><br><span class="line">stack.peek <span class="comment">// nil</span></span><br></pre></td></tr></table></figure>
+<p>入栈过程数组分别为[8]、[8, 6]、 [8, 6, 3] ，出栈从数组尾部弹出元素</p>
+<h1 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h1><p> <code>先进先出</code>,类似于排队买票，先排队的先买票<br> GCD和NSOperationQueue都是基于队列实现的</p>
+<p> <strong>队列的几个要素：</strong></p>
+<ol>
+<li>enqueue</li>
+<li>dequeue</li>
+<li>isEmpty</li>
+<li>peek</li>
+<li>size</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Queue</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 持有元素类型</span></span><br><span class="line">    <span class="keyword">associatedtype</span> <span class="type">Element</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 是否为空</span></span><br><span class="line">    <span class="keyword">var</span> isEmpty: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="comment">// 队列的大小</span></span><br><span class="line">    <span class="keyword">var</span> size: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="comment">// 队首元素</span></span><br><span class="line">    <span class="keyword">var</span> peek: <span class="type">Element?</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 入队</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">enqueue</span><span class="params">(<span class="number">_</span> newElement: Element)</span></span></span><br><span class="line">    <span class="comment">// 出队</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">dequeue</span><span class="params">()</span></span> -&gt; <span class="type">Element?</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyQueue</span>&lt;<span class="title">T</span>&gt;: <span class="title">Queue</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Element</span> = <span class="type">T</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> <span class="keyword">left</span> = [<span class="type">Element</span>]()</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> <span class="keyword">right</span> = [<span class="type">Element</span>]()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> isEmpty: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">left</span>.isEmpty &amp;&amp; <span class="keyword">right</span>.isEmpty</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> size: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">left</span>.<span class="built_in">count</span> + <span class="keyword">right</span>.<span class="built_in">count</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> peek: <span class="type">Element?</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">left</span>.isEmpty ? <span class="keyword">right</span>.first : <span class="keyword">left</span>.first</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">enqueue</span><span class="params">(<span class="number">_</span> newElement: Element)</span></span> &#123;</span><br><span class="line">        <span class="keyword">right</span>.append(newElement)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 取出的时候，因为队列是先进先出，将数组翻转后，类似于栈的操作</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">dequeue</span><span class="params">()</span></span> -&gt; <span class="type">Element?</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">left</span>.isEmpty &#123;</span><br><span class="line">            <span class="keyword">left</span> = <span class="keyword">right</span>.reversed()</span><br><span class="line">            <span class="keyword">right</span>.removeAll()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">left</span>.popLast()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看一下队列的运行结果</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> queue = <span class="type">MyQueue</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line">queue.enqueue(<span class="number">8</span>)</span><br><span class="line">queue.enqueue(<span class="number">6</span>)</span><br><span class="line">queue.enqueue(<span class="number">3</span>)</span><br><span class="line">queue.enqueue(<span class="number">9</span>)</span><br><span class="line"><span class="comment">// [8, 6, 3, 9]</span></span><br><span class="line"></span><br><span class="line">queue.peek <span class="comment">// 8</span></span><br><span class="line">queue.dequeue()</span><br><span class="line">queue.peek <span class="comment">// 6</span></span><br><span class="line">queue.dequeue()</span><br><span class="line">queue.peek <span class="comment">// 3</span></span><br><span class="line">queue.dequeue()</span><br><span class="line">queue.peek <span class="comment">// 9</span></span><br><span class="line">queue.dequeue()</span><br><span class="line">queue.peek <span class="comment">// nil</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="栈和队列相互转换"><a href="#栈和队列相互转换" class="headerlink" title="栈和队列相互转换"></a>栈和队列相互转换</h1><h2 id="用栈实现队列"><a href="#用栈实现队列" class="headerlink" title="用栈实现队列"></a>用栈实现队列</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StackToQueue</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> stackA: <span class="type">MyStack</span>&lt;<span class="type">Any</span>&gt;</span><br><span class="line">    <span class="keyword">var</span> stackB: <span class="type">MyStack</span>&lt;<span class="type">Any</span>&gt;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        stackA = <span class="type">MyStack</span>()</span><br><span class="line">        stackB = <span class="type">MyStack</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> isEmpty: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> stackA.isEmpty &amp;&amp; stackB.isEmpty</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> peek: <span class="type">Any?</span> &#123;</span><br><span class="line">        <span class="keyword">mutating</span> <span class="keyword">get</span> &#123;</span><br><span class="line">            shift()</span><br><span class="line">            <span class="keyword">return</span> stackB.peek</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> size: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> stackA.size + stackB.size</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">enqueue</span><span class="params">(object: <span class="keyword">Any</span>)</span></span> &#123;</span><br><span class="line">        stackA.push(object)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">dequeue</span><span class="params">()</span></span> -&gt; <span class="type">Any?</span> &#123;</span><br><span class="line">        shift()</span><br><span class="line">        <span class="keyword">return</span> stackB.pop()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将栈A中的元素从尾部弹出入栈给B 实现元素的翻转</span></span><br><span class="line">    <span class="keyword">fileprivate</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">shift</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> stackB.isEmpty &#123;</span><br><span class="line">            <span class="keyword">while</span> !stackA.isEmpty &#123;</span><br><span class="line">                stackB.push(stackA.pop()!)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用队列实现栈"><a href="#用队列实现栈" class="headerlink" title="用队列实现栈"></a>用队列实现栈</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">QueueToStack</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> queueA: <span class="type">MyQueue</span>&lt;<span class="type">Any</span>&gt;</span><br><span class="line">    <span class="keyword">var</span> queueB: <span class="type">MyQueue</span>&lt;<span class="type">Any</span>&gt;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        queueA = <span class="type">MyQueue</span>()</span><br><span class="line">        queueB = <span class="type">MyQueue</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> isEmpty: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> queueA.isEmpty &amp;&amp; queueB.isEmpty</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> peek: <span class="type">Any?</span> &#123;</span><br><span class="line">        <span class="keyword">mutating</span> <span class="keyword">get</span> &#123;</span><br><span class="line">            shift()</span><br><span class="line">            <span class="keyword">let</span> peekObj = queueA.peek</span><br><span class="line">            queueB.enqueue(queueA.dequeue()!)</span><br><span class="line">            <span class="built_in">swap</span>()</span><br><span class="line">            <span class="keyword">return</span> peekObj</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> size: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> queueA.size</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(object: <span class="keyword">Any</span>)</span></span> &#123;</span><br><span class="line">        queueA.enqueue(object)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">pop</span><span class="params">()</span></span> -&gt; <span class="type">Any?</span> &#123;</span><br><span class="line">        shift()</span><br><span class="line">        <span class="keyword">let</span> popObject = queueA.dequeue()</span><br><span class="line">        <span class="built_in">swap</span>()</span><br><span class="line">        <span class="keyword">return</span> popObject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 元素翻转</span></span><br><span class="line">   <span class="keyword">fileprivate</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">shift</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">while</span> queueA.size != <span class="number">1</span> &#123;</span><br><span class="line">            queueB.enqueue(queueB.dequeue()!)</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// 元组交换</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">()</span></span> &#123;</span><br><span class="line">        (queueA, queueB) = (queueB, queueA)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><a href="https://github.com/wjnhub/Algorithm/tree/master/Algorithm/StackAndQueue.playground" target="_blank" rel="noopener">源码地址</a></p>
+<p>参考<br>iOS面试之道<br><a href="https://github.com/ksco/swift-algorithm-club-cn" target="_blank" rel="noopener">swift-algorithm-club-cn</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/09/R-swift%E5%AE%89%E8%A3%85%E5%92%8C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" rel="next" title="R.swift安装和问题解决">
+                <i class="fa fa-chevron-left"></i> R.swift安装和问题解决
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/01/Flutter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="prev" title="Flutter环境配置">
+                Flutter环境配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="wjn" />
+            
+              <p class="site-author-name" itemprop="name">wjn</p>
+              <p class="site-description motion-element" itemprop="description">记录每一瞬间</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wjnhub" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wjnhub@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number">1.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#队列"><span class="nav-number">2.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈和队列相互转换"><span class="nav-number">3.</span> <span class="nav-text">栈和队列相互转换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用栈实现队列"><span class="nav-number">3.1.</span> <span class="nav-text">用栈实现队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用队列实现栈"><span class="nav-number">3.2.</span> <span class="nav-text">用队列实现栈</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjn</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
