@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="后端,swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Async 概览可能你已经注意到Vapor中的一些API会期望或返回一个通用的Future类型。对于第一次听说futures的人起初会存在些困惑但别担心，Vapor会让它们变得很易用。 Promises 和 futures是有关联的，但也是截然不同的类型。Promises 用来创建futures。通常，你将使用Vapor的APIs所返回的future来工作从而不必担心创建promises。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vapor学习之Async">
+<meta property="og:url" content="http://yoursite.com/2018/07/06/Vapor%E5%AD%A6%E4%B9%A0%E4%B9%8BAsync/index.html">
+<meta property="og:site_name" content="小熊之家">
+<meta property="og:description" content="Async 概览可能你已经注意到Vapor中的一些API会期望或返回一个通用的Future类型。对于第一次听说futures的人起初会存在些困惑但别担心，Vapor会让它们变得很易用。 Promises 和 futures是有关联的，但也是截然不同的类型。Promises 用来创建futures。通常，你将使用Vapor的APIs所返回的future来工作从而不必担心创建promises。">
+<meta property="article:published_time" content="2018-07-06T01:04:14.000Z">
+<meta property="article:modified_time" content="2020-07-04T01:12:51.449Z">
+<meta property="article:author" content="wjn">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="swift">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/06/Vapor学习之Async/"/>
+
+
+
+
+
+  <title>Vapor学习之Async | 小熊之家</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小熊之家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/06/Vapor%E5%AD%A6%E4%B9%A0%E4%B9%8BAsync/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小熊之家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vapor学习之Async</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-06T09:04:14+08:00">
+                2018-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="url" rel="index">
+                    <span itemprop="name">知识点</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Async-概览"><a href="#Async-概览" class="headerlink" title="Async 概览"></a>Async 概览</h1><p>可能你已经注意到Vapor中的一些API会期望或返回一个通用的Future类型。对于第一次听说futures的人起初会存在些困惑但别担心，Vapor会让它们变得很易用。</p>
+<p>Promises 和 futures是有关联的，但也是截然不同的类型。Promises 用来创建futures。通常，你将使用Vapor的APIs所返回的future来工作从而不必担心创建promises。</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>description</th>
+<th>mutability</th>
+<th>methods</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Future</td>
+<td>引用一个可能还是不可用的对象</td>
+<td>只读</td>
+<td>.map(to:<em>:) .flatMap(to:</em>:) do(<em>:) catch(</em>:)</td>
+</tr>
+<tr>
+<td>Promise</td>
+<td>提供一些异步的对象</td>
+<td>可读写</td>
+<td>succeed(<em>:) fail(</em>:)</td>
+</tr>
+<tr>
+<td><code>Future</code>是基于回调的异步API的替代品,Futures可以链式以及转化来使用，这是简单闭包无法企及的方式，这使得Futures非常强大。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="Transforming"><a href="#Transforming" class="headerlink" title="Transforming"></a>Transforming</h1><p>就像Swift中的可选项，futures可以被<code>mapped</code>以及<code>flat-mapped</code>。这些是你在futures上执行的最常见操作</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>signature</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>map</td>
+<td>to: U.Type, _: (T) -&gt; U</td>
+<td>把一个future Map成一个不同的值</td>
+</tr>
+<tr>
+<td>flatMap</td>
+<td>to: U.Type, _: (T) -&gt; Future<U></td>
+<td>把一个future Map成一个不同的future值</td>
+</tr>
+<tr>
+<td>transform</td>
+<td>to: U</td>
+<td>将一个future Map成一个已经可用值</td>
+</tr>
+<tr>
+<td>如果你查看<code>Optional&lt;T&gt;</code>和<code>Array &lt;T&gt;</code>上的<code>map</code>和<code>flatMap</code>的方法签名，您将看到它们与<code>Future &lt;T&gt;</code>上的方法非常相似</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p><code>.map(to:_:)</code>方法允许你将 future 的值转换成另一个值。一旦 <code>Future</code> 的数据准备就绪后，提供的闭包将会立即被调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; 设想我们从某个API获取了一个future string</span><br><span class="line">let futureString: Future&lt;String&gt; &#x3D; ...</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; 将这个 future string转为 integer</span><br><span class="line">let futureInt &#x3D; futureString.map(to: Int.self) &#123; string in</span><br><span class="line">    print(string) &#x2F;&#x2F; 实际的string</span><br><span class="line">    return Int(string) ?? 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; 现在我们有了一个 future integer</span><br><span class="line">print(futureInt) &#x2F;&#x2F; Future&lt;Int&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="Flat-Map"><a href="#Flat-Map" class="headerlink" title="Flat Map"></a>Flat Map</h1><p><code>.flatMap(to:_:)</code> 方法允许你将 future 的值转换成另一个 future 值。因为 flatMap 可以使你避免生成内嵌的 futures（比如：<code>Future&lt;Future&lt;T&gt;&gt;</code>），所以以 “flat” 来命名。换言之，这将使得你的    更加扁平化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; 假设我们从某个API获取一个 Future&lt;String&gt; 对象</span><br><span class="line">let futureString: Future&lt;String&gt; &#x3D; ...</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; 假设我们创建了一个http客户端</span><br><span class="line">let client: Client &#x3D; ... </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; Flat-map 操作将Future&lt;String&gt;转为Future&lt;Response&gt;</span><br><span class="line">let futureResponse &#x3D; futureString.flatMap(to: Response.self) &#123; string in</span><br><span class="line">    return client.get(string) &#x2F;&#x2F; Future&lt;Response&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 现在我们就有了一个Future&lt;Response&gt;</span><br><span class="line">print(futureResponse) &#x2F;&#x2F; Future&lt;Response&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>提示: 上述例子中如果使用 .map(to:_:) 替代的话，我们将会最终得到 <code>Future&lt;Future&lt;Response&gt;&gt;</code> 。</p>
+</blockquote>
+<h2 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a>Transform</h2><p><code>.transform（_ :)</code>方法允许你修改future’s value，而忽略现有值。这对于转化那些对于future的实际价值并不重要的<code>Future &lt;Void&gt;</code>类型的结果特别有用。</p>
+<blockquote>
+<p>提示: <code>Future&lt;Void&gt;</code>，有时被称为信号，其唯一目的是通知你一些异步操作的完成或失败。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; 假设我们从某个API获取了一个 future&lt;void&gt;</span><br><span class="line">let userDidSave: Future&lt;Void&gt; &#x3D; ...</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; 将其转化为一个http状态</span><br><span class="line">let futureStatus &#x3D; userDidSave.transform(to: HTTPStatus.ok)</span><br><span class="line">print(futureStatus) &#x2F;&#x2F; Future&lt;HTTPStatus&gt;</span><br></pre></td></tr></table></figure>
+<p>这个操作仍然是一个转变,即使我们已经提供了一个可使用的值用来<code>transform.</code>在之前的futures还未完成（或者失败）之前，这个future不会完成。</p>
+<h1 id="Chaining"><a href="#Chaining" class="headerlink" title="Chaining"></a>Chaining</h1><p>Futures 有这么一个特性，转换可以被 chained 。它允许你可以很容易的进行多次转换。<br>让我们修改上述示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; 假设我们获取一个future返回值从某个api</span><br><span class="line">let futureString: Future&lt;String&gt; &#x3D; ...</span><br><span class="line">&#x2F;&#x2F;&#x2F; 假设我们已经初始化了一个客户端</span><br><span class="line">let client: Client &#x3D; ... </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; 先转化为一个URL再转化为一个Response类型。</span><br><span class="line">let futureResponse &#x3D; futureString.map(to: URL.self) &#123; string in</span><br><span class="line">    guard let url &#x3D; URL(string: string) else &#123;</span><br><span class="line">        throw Abort(.badRequest, reason: &quot;Invalid URL string: \(string)&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    return url</span><br><span class="line">&#125;.flatMap(to: Response.self) &#123; url in</span><br><span class="line">    return client.get(url)</span><br><span class="line">&#125;</span><br><span class="line">print(futureResponse) &#x2F;&#x2F;Future&lt;Response&gt;</span><br></pre></td></tr></table></figure>
+<p>在初次调用 map 后，生成了个临时的 <code>Future&lt;URL&gt;</code>。然后该 future 立即被 flat-mapped 成 <code>Future&lt;Response&gt;</code> 。</p>
+<blockquote>
+<p>提示: 你可以在 map 和 flat-map 闭包中 <code>throw</code> 错误。这将引起 future 失败，并附带抛出来的错误信息。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; Assume we have a Request and some ViewRenderer</span><br><span class="line">let req: Request &#x3D; ...</span><br><span class="line">let view: ViewRenderer &#x3D; ...</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; Render the view, using the Request as a worker. </span><br><span class="line">&#x2F;&#x2F;&#x2F; This ensures the async work happens on the correct event loop.</span><br><span class="line">&#x2F;&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;&#x2F; This assumes the signature is:</span><br><span class="line">&#x2F;&#x2F;&#x2F; func render(_: String, on: Worker)</span><br><span class="line">view.render(&quot;home.html&quot;, on: req)</span><br></pre></td></tr></table></figure>
+<h1 id="Futures"><a href="#Futures" class="headerlink" title="Futures"></a>Futures</h1><p>因为 <code>Future</code>是异步执行的，我们必须使用闭包来进行交互并转换它们的值。就像 Swift 中的 optionals 一样， futures 可以被 mapped 和 flat-mapped 。</p>
+<h2 id="Do-Catch"><a href="#Do-Catch" class="headerlink" title="Do / Catch"></a>Do / Catch</h2><p>与Swift的do / catch语法类似，futures也有一种do和catch方法来等待未来的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; Assume we get a future string back from some API</span><br><span class="line">let futureString: Future&lt;String&gt; &#x3D; ...</span><br><span class="line">futureString.do &#123; string in</span><br><span class="line">    print(string) &#x2F;&#x2F; 实际值</span><br><span class="line">&#125;.catch &#123; error in</span><br><span class="line">    print(error) &#x2F;&#x2F; 一个Swift类型的错误</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>提示:<code>.do</code>和<code>.catch</code>一起工作。如果你忘记<code>.catch</code>，编译器会警告你一个未使用的结果。不要忘记处理错误的情况！</p>
+</blockquote>
+<h2 id="Always"><a href="#Always" class="headerlink" title="Always"></a>Always</h2><p>你可以使用<code>always</code>来添加一个无论是失败还是成功都会被调用的回调。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; Assume we get a future string back from some API</span><br><span class="line">let futureString: Future&lt;String&gt; &#x3D; ...</span><br><span class="line">futureString.always &#123;</span><br><span class="line">    print(&quot;The future is complete!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Wait"><a href="#Wait" class="headerlink" title="Wait"></a>Wait</h2><p>你可以使用<code>.wait（</code>）同步等待future完成。由于future可能会失败，所以这个调用会抛出异常。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F;&#x2F; Assume we get a future string back from some API</span><br><span class="line">let futureString: Future&lt;String&gt; &#x3D; ...</span><br><span class="line">&#x2F;&#x2F;&#x2F; 一直阻塞到string操作完成</span><br><span class="line">let string &#x3D; try futureString.wait()</span><br><span class="line">print(string) &#x2F;&#x2F;&#x2F; String</span><br></pre></td></tr></table></figure>
+<p><code>注意: 不要在一个vapor 的路由或者控制器中使用这个方法</code></p>
+<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><p>大多数情况下，你是通过调用vapor的API’s来获取一个需要操作的future。但是，在某些时候，你可能需要创建自己的promise。<br>要创建promise，你需要访问<code>EventLoop</code>。Vapor中的所有容器都有一个可以使用的<code>eventLoop</code>属性。最常见的是，就是当前的<code>Request</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; Create a new promise for some string</span><br><span class="line">let promiseString &#x3D; req.eventLoop.newPromise(String.self)</span><br><span class="line">print(promiseString) &#x2F;&#x2F; Promise&lt;String&gt;</span><br><span class="line">print(promiseString.futureResult) &#x2F;&#x2F; Future&lt;String&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; Completes the associated future</span><br><span class="line">promiseString.succeed(result: &quot;Hello&quot;)</span><br><span class="line">&#x2F;&#x2F;&#x2F; Fails the associated future</span><br><span class="line">promiseString.fail(error: ...)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>提示: 一个Promise对象只能够被完成一次，所有的后续完成操作都会被忽略。</p>
+</blockquote>
+<h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><p>Promises可以从任何线程完成<code>(succeed(result:) / fail(error:))</code>。这就是为什么promise需要一个事件循环来初始化。Promise确保完成操作在它的事件循环执行。</p>
+<h1 id="Event-Loop-（事件循环）"><a href="#Event-Loop-（事件循环）" class="headerlink" title="Event Loop （事件循环）"></a>Event Loop （事件循环）</h1><p>它通常会为其运行的CPU中的每个内核创建一个事件循环在你的应用程序启动时。每个事件循环只有一个线程。如果你熟悉Node.js的事件循环，就会发现Vapor中的事件循环与Node.js中的非常相似。唯一的区别是Vapor可以在一个进程中运行多个事件循环，因为Swift支持多线程。<br>每次客户端连接到你的服务器时，它都将被分配给其中一个事件循环。从这一点开始，服务器和该客户端之间的所有通信都将发生在同一个事件循环（并关联到这个事件循环的线程）上。<br>事件循环负责跟踪每个连接的客户端的状态。如果有来自客户端的请求等待读取，则事件循环触发读取通知，导致数据被读取。一旦读取完整个请求，任何等待该请求数据的futures都将完成。</p>
+<h2 id="Worker"><a href="#Worker" class="headerlink" title="Worker"></a>Worker</h2><p>你也许会看到 Vapor 很多方法中都有一个 <code>on: Worker</code> 参数。这些方法通常是要执行异步任务，而且要访问 <code>EventLoop</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vapor 中常见的 Workers 有如下几个：</span><br><span class="line">- Application</span><br><span class="line">- Request</span><br><span class="line">- Response</span><br></pre></td></tr></table></figure>
+<p>你可以在这些容器上使用.eventLoop属性来访问事件循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(app.eventLoop) &#x2F;&#x2F; EventLoop</span><br></pre></td></tr></table></figure>
+<p>Vapor中有许多方法需要传递当前worker。它通常会有像<code>on: Worker</code>这样的标签。如果你处于路由闭包或控制器中，请传递当前<code>Request</code>或<code>Response</code>。如果你在启动应用程序时需要一个worker，请使用<code>Application</code></p>
+<h2 id="Blocking（阻塞）"><a href="#Blocking（阻塞）" class="headerlink" title="Blocking（阻塞）"></a>Blocking（阻塞）</h2><p>绝对关键的规则如下</p>
+<blockquote>
+<p><strong>危险</strong><br>切勿直接在事件循环中进行阻塞调用。<br>一个阻塞调用的例子,类似于<code>libc.sleep（_ :)</code>.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">router.get(&quot;hello&quot;) &#123; req in</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 使当前事件循环阻塞5s</span><br><span class="line">    sleep(5)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F;当线程重新工作室返回一个简单字符串</span><br><span class="line">    return &quot;Hello, world!&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>sleep（_ :)</code>是一个用于在提供的秒数内阻止当前线程的命令。如果你直接在事件循环中阻塞工作，则在阻塞工作期间，事件循环将无法响应分配给它的任何其他客户端。换句话说，如果你在事件循环中进行睡眠（5），则连接到该事件循环的所有其他客户端（可能为数百或数千个）将被延迟至少5秒<br>确保只有在后台才运行任何阻塞工作。当这项工作以非阻塞方式完成时，使用Promise通知事件循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">router.get(&quot;hello&quot;) &#123; req in</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 创建一个空的promise</span><br><span class="line">    let promise &#x3D; req.eventLoop.newPromise(Void.self)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; 在后台线程执行</span><br><span class="line">    DispatchQueue.global() &#123;</span><br><span class="line">        &#x2F;&#x2F;&#x2F; 使后台线程睡眠</span><br><span class="line">        &#x2F;&#x2F;&#x2F; 这不会影响到当前的事件循环</span><br><span class="line">        sleep(5)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;&#x2F; 当阻塞工作完成时</span><br><span class="line">        &#x2F;&#x2F;&#x2F; promise和他关联的future会被完成</span><br><span class="line">        promise.succeed()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; 等待 future完成</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 将结果转为一个简单的字符</span><br><span class="line">    return promise.futureResult.transform(to: &quot;Hello, world!&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并非所有的阻塞调用会像<code>sleep(:)</code>如此明显，当你怀疑你调用的方法可能被阻塞时，研究下这个方法本身或者询问相关的人。如果该函数正在执行磁盘或者网络IO并且使用的是一个同步API(无回调或者futures)，那么就会发生阻塞的情况。</p>
+<blockquote>
+<p>提示:  如果阻塞工作是应用程序的核心部分，则应该考虑使用BlockingIOThreadPool来控制你创建的阻塞工作的线程数。当阻塞工作正在被完成时，这将避免你的事件循环长期获取不到 CPU 时间片。。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag"># 后端</a>
+          
+            <a href="/tags/swift/" rel="tag"># swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/06/Vapor%E5%AD%A6%E4%B9%A0%E4%B9%8BContent/" rel="next" title="Vapor学习之Content">
+                <i class="fa fa-chevron-left"></i> Vapor学习之Content
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/06/Vapor%E5%AD%A6%E4%B9%A0%E4%B9%8BServices/" rel="prev" title="Vapor学习之Services">
+                Vapor学习之Services <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="wjn" />
+            
+              <p class="site-author-name" itemprop="name">wjn</p>
+              <p class="site-description motion-element" itemprop="description">记录每一瞬间</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wjnhub" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wjnhub@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Async-概览"><span class="nav-number">1.</span> <span class="nav-text">Async 概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Transforming"><span class="nav-number">2.</span> <span class="nav-text">Transforming</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">2.1.</span> <span class="nav-text">Map</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flat-Map"><span class="nav-number">3.</span> <span class="nav-text">Flat Map</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Transform"><span class="nav-number">3.1.</span> <span class="nav-text">Transform</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chaining"><span class="nav-number">4.</span> <span class="nav-text">Chaining</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Futures"><span class="nav-number">5.</span> <span class="nav-text">Futures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Do-Catch"><span class="nav-number">5.1.</span> <span class="nav-text">Do &#x2F; Catch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Always"><span class="nav-number">5.2.</span> <span class="nav-text">Always</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wait"><span class="nav-number">5.3.</span> <span class="nav-text">Wait</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise"><span class="nav-number">6.</span> <span class="nav-text">Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全"><span class="nav-number">6.1.</span> <span class="nav-text">线程安全</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Event-Loop-（事件循环）"><span class="nav-number">7.</span> <span class="nav-text">Event Loop （事件循环）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Worker"><span class="nav-number">7.1.</span> <span class="nav-text">Worker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blocking（阻塞）"><span class="nav-number">7.2.</span> <span class="nav-text">Blocking（阻塞）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjn</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
