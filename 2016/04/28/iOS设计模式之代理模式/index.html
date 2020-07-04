@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS,三方库,Swift," />
+  <meta name="keywords" content="iOS,知识点," />
 
 
 
@@ -79,21 +79,18 @@
 
 
 
-<meta name="description" content="安装官网地址 照着官网配置即可，这里中文翻译下  添加 pod &#39;R.swift&#39; 执行pod install 在TARGETS-Build Phases点击加号添加New Run Script Phase 在新创建的Run Script拖拽到Compile Sources上方，添加脚本 &quot;$PODS_ROOT&#x2F;R.swift&#x2F;rswift&quot; generate">
+<meta name="description" content="一、什么是代理模式 为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作简单来说就是: 为其他对象提供一种代理,控制对该对象的访问 代理主要由三部分组成  协议 指定双方能实现什么和必须要实现什么 代理 根据指定的协议 实现委托方需要的功能 委托 根据协议,指定代理去完成什么  例如我们最常见的UIT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="R.swift安装和问题解决">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/R-swift%E5%AE%89%E8%A3%85%E5%92%8C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/index.html">
+<meta property="og:title" content="iOS设计模式之代理模式">
+<meta property="og:url" content="http://yoursite.com/2016/04/28/iOS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="小熊之家">
-<meta property="og:description" content="安装官网地址 照着官网配置即可，这里中文翻译下  添加 pod &#39;R.swift&#39; 执行pod install 在TARGETS-Build Phases点击加号添加New Run Script Phase 在新创建的Run Script拖拽到Compile Sources上方，添加脚本 &quot;$PODS_ROOT&#x2F;R.swift&#x2F;rswift&quot; generate">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200609104005896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dqbmh1Yg==,size_16,color_FFFFFF,t_70">
-<meta property="article:published_time" content="2019-06-09T12:29:19.000Z">
-<meta property="article:modified_time" content="2020-06-28T12:32:23.734Z">
+<meta property="og:description" content="一、什么是代理模式 为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作简单来说就是: 为其他对象提供一种代理,控制对该对象的访问 代理主要由三部分组成  协议 指定双方能实现什么和必须要实现什么 代理 根据指定的协议 实现委托方需要的功能 委托 根据协议,指定代理去完成什么  例如我们最常见的UIT">
+<meta property="article:published_time" content="2016-04-28T01:23:14.000Z">
+<meta property="article:modified_time" content="2020-07-04T01:24:59.155Z">
 <meta property="article:author" content="wjn">
 <meta property="article:tag" content="iOS">
-<meta property="article:tag" content="三方库">
-<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="知识点">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200609104005896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dqbmh1Yg==,size_16,color_FFFFFF,t_70">
 
 
 
@@ -123,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/09/R-swift安装和问题解决/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/04/28/iOS设计模式之代理模式/"/>
 
 
 
 
 
-  <title>R.swift安装和问题解决 | 小熊之家</title>
+  <title>iOS设计模式之代理模式 | 小熊之家</title>
   
 
 
@@ -266,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/09/R-swift%E5%AE%89%E8%A3%85%E5%92%8C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/28/iOS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wjn">
@@ -283,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">R.swift安装和问题解决</h1>
+          <h1 class="post-title" itemprop="name headline">iOS设计模式之代理模式</h1>
         
 
         <div class="post-meta">
@@ -295,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-09T20:29:19+08:00">
-                2019-06-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-28T09:23:14+08:00">
+                2016-04-28
               </time>
             
 
@@ -318,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="url" rel="index">
+                    <span itemprop="name">知识点</span>
                   </a>
                 </span>
 
@@ -355,23 +352,29 @@
       
 
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="https://github.com/mac-cain13/R.swift" target="_blank" rel="noopener">官网地址</a></p>
-<p>照着官网配置即可，这里中文翻译下</p>
-<ol>
-<li>添加 <code>pod &#39;R.swift&#39;</code> 执行pod install</li>
-<li>在<code>TARGETS</code>-<code>Build Phases</code>点击加号添加<code>New Run Script Phase</code></li>
-<li>在新创建的<code>Run Script</code>拖拽到<code>Compile Sources</code>上方，添加脚本<br> <code>&quot;$PODS_ROOT/R.swift/rswift&quot; generate &quot;$SRCROOT/R.generated.swift&quot;</code></li>
-<li>在<code>Input Files</code>中添加 <code>$TEMP_DIR/rswift-lastrun</code>  在<code>Output Files</code>中添加<code>$SRCROOT/R.generated.swift</code> </li>
-<li><code>Command+B</code>编译项目后再项目目录中会生成一个<code>R.generated.swift</code>文件，将该文件拖拽到项目中<br> 注意：添加文件时<code>Copy items if needed</code>不要勾选</li>
-</ol>
-<blockquote>
-<p>可以在 <code>.gitignore</code> 添加一行 <code>*.generated.swift</code>忽略该文件，避免造成冲突</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/20200609104005896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dqbmh1Yg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>在编译的时候报错</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Cycle</span> inside wjnhub; building could produce unreliable results. <span class="type">This</span> usually can be resolved by moving the target's <span class="type">Headers</span> build phase before <span class="type">Compile</span> <span class="type">Sources</span>.</span><br><span class="line"><span class="type">Cycle</span> details:</span><br><span class="line">→ <span class="type">That</span> command depends on command <span class="keyword">in</span> <span class="type">Target</span> 'wjnhub': script phase “[<span class="type">CP</span>] <span class="type">Embed</span> <span class="type">Pods</span> <span class="type">Frameworks</span>”</span><br><span class="line">→ <span class="type">Target</span> 'wjnhub' has compile command <span class="keyword">for</span> <span class="type">Swift</span> source files</span><br><span class="line">○ <span class="type">That</span> command depends on command <span class="keyword">in</span> <span class="type">Target</span> 'wjnhub': script phase “<span class="type">Run</span> <span class="type">Script</span>”</span><br></pre></td></tr></table></figure>
+        <h1 id="一、什么是代理模式"><a href="#一、什么是代理模式" class="headerlink" title="一、什么是代理模式"></a>一、什么是代理模式</h1><p> 为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作<br><strong>简单来说就是: 为其他对象提供一种代理,控制对该对象的访问</strong></p>
+<p>代理主要由三部分组成</p>
+<ul>
+<li>协议 指定双方能实现什么和必须要实现什么</li>
+<li>代理 根据指定的协议 实现委托方需要的功能</li>
+<li>委托 根据协议,指定代理去完成什么</li>
+</ul>
+<p>例如我们最常见的<code>UITableView</code>,他的常用代理为<code>UITableViewDelegate</code>,<code>UITableViewDataSource</code>,当我们定义一个列表的时候,我们需要引入这两个协议,同时遵循<code>delegate</code>和<code>dataSource</code>代理,然后实现协议中为我们提供的方法就可以了, 外部使用方并不需要知道这些方法具体是怎么实现的.</p>
+<p>协议有两种修饰符<code>@optional</code>和<code>@required</code>,当修饰符为<code>@required</code>时,则下面的协议方法必须要实现.<br>在委托方调用方法时,需要判断代理是否实现当前方法,否则会崩溃</p>
+<h1 id="二、应用场景"><a href="#二、应用场景" class="headerlink" title="二、应用场景"></a>二、应用场景</h1><p>消息传递<br>A想要干某事 委托B去干 </p>
+<h1 id="三、如何使用"><a href="#三、如何使用" class="headerlink" title="三、如何使用"></a>三、如何使用</h1><p>定义协议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@protocol DNLoginViewDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">@required</span><br><span class="line">- (void)loginBtnClickWithUsername:(NSString *)username password:(NSString *)password;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>定义委托类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@interface DNLoginView : UIView</span><br><span class="line"></span><br><span class="line">@property (nonatomic, weak) id &lt;DNLoginViewDelegate&gt;delegate;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DNLoginView</span><br><span class="line"></span><br><span class="line">- (void)loginBtnClick:(UIButton *)sender &#123;</span><br><span class="line">    if (self.delegate &amp;&amp; [self.delegate respondsToSelector:@selector(loginBtnClickWithUsername:password:)]) &#123;</span><br><span class="line">        [self.delegate loginBtnClickWithUsername:self.usernameTextField.text password:self.passwordTextField.text];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>实现代理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@interface DNLoginViewController () &lt;DNLoginViewDelegate&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) DNLoginView *loginView;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DNLoginViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    &#x2F;&#x2F; Do any additional setup after loading the view from its nib.</span><br><span class="line">    self.navigationItem.title &#x3D; @&quot;登陆&quot;;</span><br><span class="line">    </span><br><span class="line">    [self.view addSubview:self.loginView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - DNLoginViewDelegate</span><br><span class="line">- (void)loginBtnClickWithUsername:(NSString *)username password:(NSString *)password &#123;</span><br><span class="line">    NSLog(@&quot;loginBtnClick username: %@, password: %@&quot;, username, password);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (DNLoginView *)loginView &#123;</span><br><span class="line">    if (!_loginView) &#123;</span><br><span class="line">        _loginView &#x3D; [[DNLoginView alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 200)];</span><br><span class="line">        _loginView.delegate &#x3D; self;</span><br><span class="line">    &#125;</span><br><span class="line">    return _loginView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>该问题是由于在运行<code>complies Source</code>时<code>R.generated.swift</code>没有完全确定，仔细看一下安装的第三条知道该怎么干了<br>由于新添加的<code>Run Script</code>默认在最下面，此时我们只需要将 <strong><code>Run Script</code>拖拽到<code>Compile Sources</code>上方</strong>即可</p>
+<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>代理方和委托方不需要了解对方的具体方法,实现解耦</li>
+<li>职责清晰</li>
+<li>扩展性高<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2></li>
+<li>一对一,需要签订协议</li>
+</ul>
 
       
     </div>
@@ -391,9 +394,7 @@
           
             <a href="/tags/iOS/" rel="tag"># iOS</a>
           
-            <a href="/tags/%E4%B8%89%E6%96%B9%E5%BA%93/" rel="tag"># 三方库</a>
-          
-            <a href="/tags/Swift/" rel="tag"># Swift</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># 知识点</a>
           
         </div>
       
@@ -406,8 +407,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/28/Homebrew%E6%97%B6%E6%8A%A5%E9%94%99/" rel="next" title="Homebrew时报错">
-                <i class="fa fa-chevron-left"></i> Homebrew时报错
+              <a href="/2015/12/03/cocoapods%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" rel="next" title="cocoapods安装和使用">
+                <i class="fa fa-chevron-left"></i> cocoapods安装和使用
               </a>
             
           </div>
@@ -416,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/30/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="prev" title="栈和队列原理与实现">
-                栈和队列原理与实现 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/27/Swift%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%AD%97%E7%AC%A6/" rel="prev" title="Swift学习之字符串和字符">
+                Swift学习之字符串和字符 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -570,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、什么是代理模式"><span class="nav-number">1.</span> <span class="nav-text">一、什么是代理模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、应用场景"><span class="nav-number">2.</span> <span class="nav-text">二、应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、如何使用"><span class="nav-number">3.</span> <span class="nav-text">三、如何使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、总结"><span class="nav-number">4.</span> <span class="nav-text">四、总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
             
 
           </div>
