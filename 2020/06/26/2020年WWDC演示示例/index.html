@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Swift,SwiftUI," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="整体效果 代码实现文件目录 SandwichesApp.swift1234567891011121314import SwiftUI@mainstruct SandwichesApp: App &amp;#123;	&#x2F;&#x2F; 定义一个私有的状态对象 store    @StateObject private var store &#x3D; SandwichStore()    var body: some Scene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020年WWDC演示示例">
+<meta property="og:url" content="http://yoursite.com/2020/06/26/2020%E5%B9%B4WWDC%E6%BC%94%E7%A4%BA%E7%A4%BA%E4%BE%8B/index.html">
+<meta property="og:site_name" content="小熊之家">
+<meta property="og:description" content="整体效果 代码实现文件目录 SandwichesApp.swift1234567891011121314import SwiftUI@mainstruct SandwichesApp: App &amp;#123;	&#x2F;&#x2F; 定义一个私有的状态对象 store    @StateObject private var store &#x3D; SandwichStore()    var body: some Scene">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200701172512389.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200701172602489.png">
+<meta property="article:published_time" content="2020-06-26T00:54:12.000Z">
+<meta property="article:modified_time" content="2020-07-04T00:56:20.857Z">
+<meta property="article:author" content="wjn">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="SwiftUI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200701172512389.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/26/2020年WWDC演示示例/"/>
+
+
+
+
+
+  <title>2020年WWDC演示示例 | 小熊之家</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小熊之家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/2020%E5%B9%B4WWDC%E6%BC%94%E7%A4%BA%E7%A4%BA%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小熊之家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2020年WWDC演示示例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-26T08:54:12+08:00">
+                2020-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/Swift/SwiftUI/" itemprop="url" rel="index">
+                    <span itemprop="name">SwiftUI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="整体效果"><a href="#整体效果" class="headerlink" title="整体效果"></a>整体效果</h1><p><img src="https://img-blog.csdnimg.cn/20200701172512389.gif" alt="在这里插入图片描述"></p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="文件目录"><a href="#文件目录" class="headerlink" title="文件目录"></a>文件目录</h2><p><img src="https://img-blog.csdnimg.cn/20200701172602489.png" alt="在这里插入图片描述"></p>
+<h2 id="SandwichesApp-swift"><a href="#SandwichesApp-swift" class="headerlink" title="SandwichesApp.swift"></a>SandwichesApp.swift</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line">@main</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SandwichesApp</span>: <span class="title">App</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 定义一个私有的状态对象 store</span></span><br><span class="line">    @<span class="type">StateObject</span> <span class="keyword">private</span> <span class="keyword">var</span> store = <span class="type">SandwichStore</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> body: some <span class="type">Scene</span> &#123;</span><br><span class="line">        <span class="type">WindowGroup</span> &#123;</span><br><span class="line">        	<span class="comment">// 将store传递给列表页</span></span><br><span class="line">            <span class="type">ContentView</span>(store: store)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SandwichStore-swift"><a href="#SandwichStore-swift" class="headerlink" title="SandwichStore.swift"></a>SandwichStore.swift</h2><p>将模型数据抽离出来观察其数据变化</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SandwichStore</span>: <span class="title">ObservableObject</span> </span>&#123;</span><br><span class="line">    @<span class="type">Published</span> <span class="keyword">var</span> sandwiches: [<span class="type">Sandwich</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(sandwiches: [<span class="type">Sandwich</span>] = [] )&#123;</span><br><span class="line">        <span class="keyword">self</span>.sandwiches = sandwiches</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> testStore = <span class="type">SandwichStore</span>(sandwiches: testData)</span><br></pre></td></tr></table></figure>
+
+<h2 id="ContentView-swift"><a href="#ContentView-swift" class="headerlink" title="ContentView.swift"></a>ContentView.swift</h2><p>列表效果的实现</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ContentView</span>: <span class="title">View</span> </span>&#123;</span><br><span class="line"><span class="comment">// 定义一个观察对象 store</span></span><br><span class="line">    @<span class="type">ObservedObject</span> <span class="keyword">var</span> store: <span class="type">SandwichStore</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">var</span> body: some <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">NavigationView</span>&#123;</span><br><span class="line">            <span class="comment">// 列表的实现</span></span><br><span class="line">            <span class="type">List</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(store.sandwiches) &#123; sandwich <span class="keyword">in</span></span><br><span class="line">                    <span class="type">SandwichCell</span>(sandwich: sandwich)</span><br><span class="line">                &#125;</span><br><span class="line">                .onMove (perform: moveSandwiches)</span><br><span class="line">                .onDelete(perform: deleteSandwiches)</span><br><span class="line">                </span><br><span class="line">                <span class="type">HStack</span> &#123;</span><br><span class="line">                    <span class="type">Spacer</span>()</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">"\(store.sandwiches.count) Sandwiches"</span>)</span><br><span class="line">                    <span class="type">Spacer</span>()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            .navigationTitle(<span class="string">"Sandwiches"</span>)</span><br><span class="line"><span class="comment">//            .toolbar &#123; // 跟发布会演示的效果不同</span></span><br><span class="line"><span class="comment">//                #if os(iOS)</span></span><br><span class="line"><span class="comment">//                EditButton()</span></span><br><span class="line"><span class="comment">//                #endif</span></span><br><span class="line"><span class="comment">//                Button("Add", action: makeSandwich)</span></span><br><span class="line"><span class="comment">//            &#125;	</span></span><br><span class="line">			<span class="comment">// 先用旧的实现方式显示导航栏功能按键</span></span><br><span class="line">            .navigationBarItems(leading: <span class="type">EditButton</span>(),</span><br><span class="line">                                trailing: <span class="type">Button</span>(<span class="string">"Add"</span>, action: makeSandwich))</span><br><span class="line">            <span class="type">Text</span>(<span class="string">"Select a sandwich"</span>)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">makeSandwich</span><span class="params">()</span></span> &#123;</span><br><span class="line">        withAnimation &#123;</span><br><span class="line">            store.sandwiches.append(<span class="type">Sandwich</span>(name: <span class="string">"Patty melt"</span>, ingredientCount: <span class="number">3</span>))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 移动</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">moveSandwiches</span><span class="params">(from: IndexSet, to: Int)</span></span> &#123;</span><br><span class="line">        withAnimation &#123;</span><br><span class="line">            store.sandwiches.move(fromOffsets: from, toOffset: to)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 删除</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deleteSandwiches</span><span class="params">(offsets: IndexSet)</span></span> &#123;</span><br><span class="line">        withAnimation &#123;</span><br><span class="line">            store.sandwiches.remove(atOffsets: offsets)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ContentView_Previews</span>: <span class="title">PreviewProvider</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> previews: some <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Group</span> &#123; <span class="comment">// 创建了不同模式下的模拟器预览</span></span><br><span class="line">            <span class="type">ContentView</span>(store: testStore)</span><br><span class="line">            <span class="type">ContentView</span>(store: testStore)</span><br><span class="line">                .environment(\.sizeCategory, .extraExtraExtraLarge)</span><br><span class="line">            <span class="type">ContentView</span>(store: testStore)</span><br><span class="line">                .preferredColorScheme(.dark)</span><br><span class="line">                .environment(\.sizeCategory, .extraExtraExtraLarge)</span><br><span class="line">            <span class="type">ContentView</span>(store: testStore)</span><br><span class="line">                .preferredColorScheme(.dark)</span><br><span class="line">                .environment(\.sizeCategory, .extraExtraExtraLarge)</span><br><span class="line">                .environment(\.layoutDirection, .rightToLeft)</span><br><span class="line">                .environment(\.locale, <span class="type">Locale</span>(identifier: <span class="string">"ar"</span>))</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SandwichCell</span>: <span class="title">View</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 接收cell传递来的数据</span></span><br><span class="line">    <span class="keyword">var</span> sandwich: <span class="type">Sandwich</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: some <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">NavigationLink</span>(destination: <span class="type">SandwichDetail</span>(sandwich: sandwich))&#123;</span><br><span class="line">            <span class="type">Image</span>(sandwich.thumbnailName)</span><br><span class="line">                .cornerRadius(<span class="number">8.0</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="type">VStack</span>(alignment: .leading) &#123;</span><br><span class="line">                <span class="type">Text</span>(sandwich.name)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">"\(sandwich.ingredientCount) ingredients"</span>)</span><br><span class="line">                    .font(.subheadline)</span><br><span class="line">                    .foregroundColor(.secondary)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sandwich-swift"><a href="#Sandwich-swift" class="headerlink" title="Sandwich.swift"></a>Sandwich.swift</h2><p>列表的模型文件</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="comment">// 模型定义</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Sandwich</span>: <span class="title">Identifiable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> id = <span class="type">UUID</span>()</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> ingredientCount: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> isSpicy: <span class="type">Bool</span> = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> imageName: <span class="type">String</span> &#123; <span class="keyword">return</span> name &#125;</span><br><span class="line">    <span class="keyword">var</span> thumbnailName: <span class="type">String</span> &#123;<span class="keyword">return</span> name + <span class="string">"Thumb"</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一组测试数组</span></span><br><span class="line"><span class="keyword">let</span> testData = [</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Club"</span>, ingredientCount: <span class="number">4</span> , isSpicy: <span class="literal">false</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Pastrami on rye"</span>, ingredientCount: <span class="number">4</span>, isSpicy: <span class="literal">true</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"French dip"</span>, ingredientCount: <span class="number">3</span>, isSpicy: <span class="literal">false</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Bánh mi"</span>, ingredientCount: <span class="number">5</span>, isSpicy: <span class="literal">true</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Ice cream sandwich"</span>, ingredientCount: <span class="number">2</span>, isSpicy: <span class="literal">false</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Croque madame"</span>, ingredientCount: <span class="number">4</span>, isSpicy: <span class="literal">false</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Hot dog"</span>, ingredientCount: <span class="number">2</span>, isSpicy: <span class="literal">true</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Fluffernutter"</span>, ingredientCount: <span class="number">2</span>, isSpicy: <span class="literal">false</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Avocado toast"</span>, ingredientCount: <span class="number">3</span>, isSpicy: <span class="literal">true</span>),</span><br><span class="line">    <span class="type">Sandwich</span>(name: <span class="string">"Gua bao"</span>, ingredientCount: <span class="number">3</span>, isSpicy: <span class="literal">true</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="SandwichDetail-swift"><a href="#SandwichDetail-swift" class="headerlink" title="SandwichDetail.swift"></a>SandwichDetail.swift</h2><p>显示的详情页</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SandwichDetail</span>: <span class="title">View</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 接收详情信息</span></span><br><span class="line">    <span class="keyword">var</span> sandwich: <span class="type">Sandwich</span></span><br><span class="line">    <span class="comment">// 定义一个私有的图片状态</span></span><br><span class="line">    @<span class="type">State</span> <span class="keyword">private</span> <span class="keyword">var</span> zoomed = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> body: some <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Spacer</span>(minLength: <span class="number">0</span>)</span><br><span class="line">            <span class="type">Image</span>(sandwich.imageName)</span><br><span class="line">                .resizable()</span><br><span class="line">                .aspectRatio(contentMode: zoomed ? .fill : .fit)</span><br><span class="line">                .onTapGesture &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        zoomed.toggle()</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            <span class="type">Spacer</span>(minLength: <span class="number">0</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 当辣且图片没有放大时显示</span></span><br><span class="line">            <span class="keyword">if</span> sandwich.isSpicy &amp;&amp; !zoomed &#123;</span><br><span class="line">                <span class="type">HStack</span>&#123;</span><br><span class="line">                    <span class="type">Spacer</span>()</span><br><span class="line">                    <span class="type">Image</span>(systemName: <span class="string">"flame.fill"</span>)</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">"Spicy"</span>)</span><br><span class="line">                    <span class="type">Spacer</span>()</span><br><span class="line">                &#125;</span><br><span class="line">                .padding(.all)</span><br><span class="line">                .font(<span class="type">Font</span>.headline.smallCaps())</span><br><span class="line">                .background(<span class="type">Color</span>.red)</span><br><span class="line">                .foregroundColor(.yellow)</span><br><span class="line">                .transition(.move(edge: .bottom))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        .navigationTitle(sandwich.name)</span><br><span class="line">        .edgesIgnoringSafeArea(.bottom)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SandwichDetail_Previews</span>: <span class="title">PreviewProvider</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> previews: some <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Group</span> &#123;</span><br><span class="line">            <span class="type">NavigationView</span> &#123;</span><br><span class="line">                <span class="type">SandwichDetail</span>(sandwich: testData[<span class="number">0</span>])</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">NavigationView</span> &#123;</span><br><span class="line">                <span class="type">SandwichDetail</span>(sandwich: testData[<span class="number">1</span>])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/wjnhub/Sandwiches" target="_blank" rel="noopener">源码下载</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/SwiftUI/" rel="tag"># SwiftUI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/28/SignInWithApple%E5%89%8D%E7%AB%AF%E5%92%8C%E5%90%8E%E7%AB%AF/" rel="next" title="SignInWithApple前端和后端">
+                <i class="fa fa-chevron-left"></i> SignInWithApple前端和后端
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="wjn" />
+            
+              <p class="site-author-name" itemprop="name">wjn</p>
+              <p class="site-description motion-element" itemprop="description">记录每一瞬间</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/wjnhub" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wjnhub@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整体效果"><span class="nav-number">1.</span> <span class="nav-text">整体效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">2.</span> <span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件目录"><span class="nav-number">2.1.</span> <span class="nav-text">文件目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SandwichesApp-swift"><span class="nav-number">2.2.</span> <span class="nav-text">SandwichesApp.swift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SandwichStore-swift"><span class="nav-number">2.3.</span> <span class="nav-text">SandwichStore.swift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ContentView-swift"><span class="nav-number">2.4.</span> <span class="nav-text">ContentView.swift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sandwich-swift"><span class="nav-number">2.5.</span> <span class="nav-text">Sandwich.swift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SandwichDetail-swift"><span class="nav-number">2.6.</span> <span class="nav-text">SandwichDetail.swift</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjn</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
